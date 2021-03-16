@@ -107,34 +107,18 @@ class Autoreply:
         match=re.findall(pat,con[theme:])
         self.match=match
 
-        max_test=3
-        flag=False
         if  config.get('Forbid',False):
-            while max_test>0:
-                remove_list=[]
-                self.getModerator()
-                content=con[theme:]
-                pat='class="bl">(.*)?</a>'
-                all_user=re.findall(pat,content)
-                if len(all_user)!=len(self.match):
-                    print(len(all_user),len(self.match))
-                    max_test-=1
-                    print('获取列表失败，重试')
-                    con=self.s.get(self.url,headers=self.headers)
-                    con = con.text.encode('iso-8859-1').decode('gbk','ignore')
-                    theme=con.find('普通主題')
-                    sleep(2)
-                    match=re.findall(pat,con[theme:])
-                    self.match=match
-                    continue
-                else:
-                    flag=True
-                    break
-
-            if not flag:
+            remove_list=[]
+            self.getModerator()
+            content=con[theme:]
+            pat='class="bl">(.*)?</a>'
+            all_user=re.findall(pat,content)
+            pat='<h3><a href="([\s\S]*?)"'
+            self.match=re.findall(pat,content)
+            print('帖子数量为:'+str(len(all_user)))
+            if len(all_user)!=len(self.match):
                 print('移除版主列表功能失效，请重试或者联系开发者更新')
                 os._exit(0)
-
             for i in range(len(all_user)):
                 if all_user[i] in self.moderator_list:
                     remove_list.append(self.match[i])
