@@ -30,7 +30,7 @@ class Autoreply:
     }
 
     def __init__(self,user,password,secret):
-        self.user= user.encode('gb18030')
+        self.user= user
         self.password= password
         self.secret =secret
         self.s=requests.Session()
