@@ -20,17 +20,17 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
     }
     headers1={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/login.php',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
     }
 
     def __init__(self,user,password,secret):
-        self.user= user.encode('gb18030')
+        self.user= user
         self.password= password
         self.secret =secret
         self.s=requests.Session()
@@ -48,7 +48,10 @@ class Autoreply:
                 'step': '2'
         }
         login=self.s.post(self.loginurl,headers=self.headers,data=data)
-        login=login.text.encode('iso-8859-1').decode('gbk')
+        if login.content.decode('gbk','ignore').find('登录尝试次数过多')!=-1:
+            login=login.content.decode('gbk','ignore')
+        else:
+            login=login.content.decode('utf-8','ignore')
         if login.find('登录尝试次数过多')!=-1:
             Err='登录尝试次数过多,需输入验证码'
             return Err
@@ -66,7 +69,7 @@ class Autoreply:
         }
         login=self.s.post(self.loginurl,headers=self.headers,data=data)
         self.cookies=login.cookies
-        login=login.text.encode('iso-8859-1').decode('gbk')
+        login=login.content.decode('utf-8','ignore')
         if login.find('您已經順利登錄')!=-1:
             res='已經順利登錄'
             self.s.close()
@@ -91,7 +94,7 @@ class Autoreply:
             'validate': vercode
         }
         login=self.s.post(self.loginurl,data=data,headers=self.headers1)
-        login=login.text.encode('iso-8859-1').decode('gbk')
+        login=login.content.decode('utf-8','ignore')
         if login.find('驗證碼不正確')!=-1:
             Err='验证码不正确，请重新输入'
             return Err
@@ -100,13 +103,12 @@ class Autoreply:
         black_list=[]
         pat=('htm_data/\w+/\w+/\w+.html')
         con=self.s.get(self.url,headers=self.headers)
-        con = con.text.encode('iso-8859-1').decode('gbk','ignore')
+        con = con.content.decode('utf-8','ignore')
         self.web_page=con
         theme=con.find('普通主題')
 
         match=re.findall(pat,con[theme:])
         self.match=match
-
         if  config.get('Forbid',False):
             remove_list=[]
             self.getModerator()
@@ -154,10 +156,9 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
         }
         res=requests.get(url=geturl,headers=headers,cookies=cookies)
-        #res=res.text.encode('iso-8859-1').decode('gbk')
 
     @staticmethod
     def getmatch(geturl,cookies):
@@ -166,18 +167,17 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
         }
         sleep(2)
         get=requests.get(geturl,headers=headers,cookies=cookies)
         sleep(2)
-        get=get.text.encode('iso-8859-1').decode('gbk')
+        get=get.content.decode('utf-8','ignore')
         pat='<b>本頁主題:</b> .*</td>'
         res=re.search(pat,get)
         res=res.group(0).replace('<b>本頁主題:</b> ','').replace('</td>','')
         res='Re:'+res
         return res
-        #print(res)
 
     @staticmethod
     def getreply():
@@ -186,7 +186,6 @@ class Autoreply:
         reply_m=random.randint(0,10)
         reply_news=reply[reply_m]
         print('本次回复消息是:'+reply_news)
-        reply_news=reply_news.encode('gb18030')
         return  reply_news
 
     #暂时没用，看以后了
@@ -209,7 +208,7 @@ class Autoreply:
         'Content-Type': 'application/x-www-form-urlencoded',
         'Proxy-Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
         }
         posturl='http://t66y.com/post.php?'
         data={
@@ -229,7 +228,7 @@ class Autoreply:
             'verify':'verify'
         }
         post=requests.post(posturl,data=data,headers=headers,cookies=cookies)
-        post = post.text.encode('iso-8859-1').decode('gbk')
+        post = post.content.decode('utf-8','ignore')
         if post.find('發貼完畢點擊')!=-1:
             status='回复成功'
             return status
@@ -245,11 +244,11 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
         }
         sleep(2)
         index=requests.get(indexurl,headers=headers,cookies=cookies)
-        index = index.text.encode('iso-8859-1').decode('gbk')
+        index = index.content.decode('utf-8','ignore')
         pat='共發表帖子: \d{1,5}'
         num=re.search(pat,index).group(0)
         num=num.replace('共發表帖子: ','')
@@ -307,7 +306,7 @@ if __name__ == "__main__":
     passwordlist=password.split()
     secretlist=secret.split()
 
-    if len(userlist)!=len(passwordlist) and len(passwordlist)!=len(secretlist):
+    if len(userlist)!=len(passwordlist) or len(passwordlist)!=len(secretlist):
         print('参数个数不匹配，请检查环境变量设置是否正确')
         os._exit(0)
     else:
