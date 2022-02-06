@@ -3,7 +3,6 @@ import re
 import random
 import onetimepass as otp
 from time import sleep
-from urllib import parse
 import os
 from getver1 import Getver
 from multiprocessing import Pool
