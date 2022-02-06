@@ -13,7 +13,7 @@ class Autoreply:
     result=None
     over=False
     flag=False
-    User-Agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
     loginurl = 'http://t66y.com/login.php'
     url='http://t66y.com/thread0806.php?fid=7&search=today'
     headers={
@@ -21,13 +21,13 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': User-Agent
+        'User-Agent': UserAgent
     }
     headers1={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/login.php',
-        'User-Agent': User-Agent
+        'User-Agent': UserAgent
     }
 
     def __init__(self,user,password,secret):
@@ -157,7 +157,7 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': Autoreply.User-Agent
+        'User-Agent': Autoreply.UserAgent
         }
         res=requests.get(url=geturl,headers=headers,cookies=cookies)
 
@@ -168,7 +168,7 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': Autoreply.User-Agent
+        'User-Agent': Autoreply.UserAgent
         }
         sleep(2)
         get=requests.get(geturl,headers=headers,cookies=cookies)
@@ -197,7 +197,7 @@ class Autoreply:
         'Content-Type': 'application/x-www-form-urlencoded',
         'Proxy-Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': Autoreply.User-Agent
+        'User-Agent': Autoreply.UserAgent
         }
         posturl='http://t66y.com/post.php?'
         data={
@@ -233,7 +233,7 @@ class Autoreply:
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': Autoreply.User-Agent
+        'User-Agent': Autoreply.UserAgent
         }
         sleep(2)
         index=requests.get(indexurl,headers=headers,cookies=cookies)
