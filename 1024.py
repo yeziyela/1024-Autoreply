@@ -13,7 +13,7 @@ class Autoreply:
     result=None
     over=False
     flag=False
-    User-Agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
+    User-Agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
     loginurl = 'http://t66y.com/login.php'
     url='http://t66y.com/thread0806.php?fid=7&search=today'
     headers={
