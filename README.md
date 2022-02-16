@@ -1,13 +1,7 @@
-<!--
- * @Author: honus
- * @Date: 2021-12-21 18:11:15
- * @LastEditTime: 2021-12-21 19:07:31
- * @LastEditors: honus
- * @Description: 
- * @FilePath: /1024-Autoreply/README.md
--->
 
-# 1024(草榴论坛)-Autoreply
+# 1024(草榴论坛)-Autoreply 多用户版本
+
+ps: 多个账号只需要用空格隔开即可
 
 **警告:使用过程建议多注意更新，否则可能草榴社区更改造成封号风险**
 
