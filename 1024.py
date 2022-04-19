@@ -4,7 +4,7 @@ import random
 import onetimepass as otp
 from time import sleep
 import os
-from getver1 import Getver
+from getver import GetVerificationCode
 from multiprocessing import Pool
 from config import config
 
@@ -311,10 +311,9 @@ if __name__ == "__main__":
                 print('登录尝试次数过多,需输入验证码')
                 auto.getverwebp()
                 if config.get('Input_self',False):
-                    vercode=input('请手动输入验证码:')
+                    vercode = input('请手动输入验证码:')
                 else:
-                    getcd=Getver()
-                    vercode=getcd.getcode()
+                    vercode = GetVerificationCode.apitruecaptcha()
                 print('输入的验证码为:'+vercode)
                 while auto.inputvercode(vercode)=='验证码不正确，请重新输入':
                     print('验证码不正确，请重新输入')
@@ -322,8 +321,7 @@ if __name__ == "__main__":
                     if config.get('Input_self',False):
                         vercode=input('请手动输入验证码:')
                     else:
-                        getcd=Getver()
-                        vercode=getcd.getcode()
+                        vercode = GetVerificationCode.apitruecaptcha()
                     print('输入的验证码为:'+vercode)
                 if auto.login1()=='賬號已開啟兩步驗證':
                     if auto.login2()=='已經順利登錄':

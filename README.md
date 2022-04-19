@@ -1,4 +1,3 @@
-
 # 1024(草榴论坛)-Autoreply 多用户版本
 
 ps: 多个账号只需要用空格隔开即可
@@ -8,11 +7,12 @@ ps: 多个账号只需要用空格隔开即可
 **#更新日志**
 
 ```
-    2021.1.22 修复草榴社区更改造成的回复失败
-    2021.2.6  修复草榴社区更改造成的链接移除失败。已修改为自动获取全部置顶链接
-    2021.2.22 增加多用户版本，切换分支查看
-    2021.3.14 通过添加config文件配置验证码手动输入，排除版主帖子
+    2022.4.19  增加免费验证码api地址，感谢 @l107868382
     2021.12.21 修复草榴社区编码修改造成的错误
+    2021.3.14  通过添加config文件配置验证码手动输入，排除版主帖子
+    2021.2.22  增加多用户版本，切换分支查看
+    2021.2.6   修复草榴社区更改造成的链接移除失败。已修改为自动获取全部置顶链接
+    2021.1.22  修复草榴社区更改造成的回复失败
 ```
 
 ~~因为考研在即~~(考完了，体验了一次真题。体验很好，下次不来了)，加上1024的回复机制确实有点繁琐，所以打算用个python脚本做一个自动回帖，本脚本主要适用于新手上路到侠客之间
@@ -28,11 +28,11 @@ config={
 
 <h4>使用说明(github Actions方式)</h4>
 
-![Fork位置与Settings位置](https://github.com/0honus0/1024-Autoreply/blob/Multi_User/doc/fork%20and%20settings.png)
+![Fork位置与Settings位置](https://cdn.jsdelivr.net/gh/0honus0/1024-Autoreply@Multi_User/doc/fork%20and%20settings.png)
 
-![Secrets位置](https://github.com/0honus0/1024-Autoreply/blob/Multi_User/doc/Secrets.png)
+![Secrets位置](https://cdn.jsdelivr.net/gh/0honus0/1024-Autoreply@Multi_User/doc/Secrets.png)
 
-![new secret位置](https://github.com/0honus0/1024-Autoreply/blob/Multi_User/doc/new%20Secret.png)
+![new secret位置](https://cdn.jsdelivr.net/gh/0honus0/1024-Autoreply@Multi_User/doc/new%20Secret.png)
 
 <h4>1.Fork之后，通过settings -> Secrets -> new secret添加下列值</h4>
 
@@ -46,10 +46,11 @@ config={
     SECRET           谷歌身份验证器密钥
 ```
 
-(可选1)([申请地址](https://market.aliyun.com/products/57124001/cmapi027426.html))
+(可选1)([申请地址](https://apitruecaptcha.org/))
 
 ```
-    TOKER            阿里验证码识别接口AppCode
+    USERID            api页面中的userid字段
+    APIKEY            api页面中的apikey字段
 ```
 
 (可选2)([注册地址](http://ttshitu.com/register.html?inviter=3d92d1b2371f487d9072430a93bb043c) )
@@ -63,14 +64,12 @@ config={
 ps:可选两个是识别验证码用的，任选其一即可，也可以都不选。如果不选碰见需要验证码的则会运行失败。
 
 ```
-   第一个用的是阿里一个api接口，每月30次免费的，正常是够用的
+   第一个是免费的api接口，每天100次免费的
 
-   第二个是自己找的一个平台，1元可以识别500次，因为我最开始需要调试，所以用的这个
+   第二个是自己找的一个平台，1元可以识别500次
 ```
 
-代码中使用的就是第二个，如果想要使用第一个，只需修改 `1024.py`文件中的 `第八行`
-
-`from getver1 import Getver` 为 `from getver import Getver`
+想要更换验证方式的，修改1024.py 316行，324行为 `GetVerificationCode.`+getver中的函数名
 
 <h4>
 2.

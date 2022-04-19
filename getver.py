@@ -2,30 +2,46 @@ from PIL import Image
 import requests
 import base64
 import os
-class Getver:
-    def getcode(self):
+import json
+
+class GetVerificationCode:
+    @staticmethod
+    def apitruecaptcha():
         im=Image.open("image.webp")
         im.save('image.png')
         f=open('image.png','rb')
+        
+        userid = os.environ["USERID"]
+        apikey = os.environ["APIKEY"]
         image=base64.b64encode(f.read())
-        url='http://302307.market.alicloudapi.com/ocr/captcha'
+        url='https://api.apitruecaptcha.org/one/gettext'
+        data={
+            'data':str(image,'utf-8'),
+            'userid':userid,
+            'apikey':apikey
+        }
+        result = requests.post(url, json.dumps(data))
+        res=result.json()
+        code = res['result']
+        return code
 
-        Auth="APPCODE "+os.environ["TOKER"]
+    @staticmethod
+    def ttshitu():
+        im=Image.open('image.webp')
+        im.save('image.png')
+        f=open('image.png','rb')
+        image=base64.b64encode(f.read())
+        host='http://api.ttshitu.com/base64'
         headers={
-            "Authorization":Auth,
-            "gateway_channel":"http",
-            "Host":"302307.market.alicloudapi.com",
-            "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
+            'Content-Type':'application/json;charset=UTF-8'
         }
         data={
-            'image':image,
-            'length':'0',
-            'type':'1001'
+            'username': os.environ["CODEUSER"] ,
+            'password': os.environ["CODEPASS"] ,
+            'image':image.decode('utf-8')
         }
-        result=requests.post(url,headers=headers,data=data)
-        res=result.text
-        m=res.find('captcha')
-        n=res.find('type')
-        code=res[m+10:n-3]
-        return code
-    
+        res=requests.post(url=host,data=json.dumps(data))
+        res=res.text
+        res=json.loads(res)
+        res=res['data']['result']
+        return res
