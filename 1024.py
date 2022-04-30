@@ -7,6 +7,7 @@ import os
 from getver import GetVerificationCode
 from multiprocessing import Pool
 from config import config
+import pickle
 
 class Autoreply:
     result=None
@@ -68,13 +69,33 @@ class Autoreply:
         'oneCode': str(my_token)
         }
         login=self.s.post(self.loginurl,headers=self.headers,data=data)
+        with open(f"./{self.user}", 'wb') as f:
+            pickle.dump(login.cookies, f)
         self.cookies=login.cookies
         login=login.content.decode('utf-8','ignore')
         if login.find('您已經順利登錄')!=-1:
             res='已經順利登錄'
             self.s.close()
             return res
-
+    
+    def updateCookies(self, cookie):
+        self.s.cookies.update(cookie)
+        self.cookies = self.s.cookies
+   
+    def verifyLoginSuc(self):
+        with self.s as s:
+            index = s.get('http://t66y.com/index.php', headers = {
+                'Host': 't66y.com',
+                'Upgrade-Insecure-Requests': '1',
+                'User-Agent': self.UserAgent
+            })
+            index = index.content.decode('utf-8','ignore')
+            if index.find('上次登錄時間')!=-1:
+                print('cookie有效登录')
+                return True
+            print('cookie无效登录, 切换为密码登录')
+            return False
+        
     def getcookies(self):
         return self.cookies
 
@@ -306,6 +327,13 @@ if __name__ == "__main__":
         success=None
         auto=Autoreply(userlist[count],passwordlist[count],secretlist[count])
         while success is None:
+            userCookieFile = f"./{userlist[count]}"
+            if os.path.isfile(userCookieFile):
+                with open(userCookieFile, 'rb') as f:   
+                    auto.updateCookies(pickle.load(f))
+                print(f"{userlist[count]}cookie文件已加载...跳过密码登录")
+                if auto.verifyLoginSuc() == True:
+                    break
             au=auto.login1()
             if au=='登录尝试次数过多,需输入验证码':
                 print('登录尝试次数过多,需输入验证码')
