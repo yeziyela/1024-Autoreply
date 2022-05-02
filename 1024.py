@@ -331,7 +331,7 @@ if __name__ == "__main__":
             if os.path.isfile(userCookieFile):
                 with open(userCookieFile, 'rb') as f:   
                     auto.updateCookies(pickle.load(f))
-                print(f"账号{count} cookie文件已加载...跳过密码登录")
+                    print(f"账号{count} cookie文件已加载...跳过密码登录")
                 if auto.verifyLoginSuc() == True:
                     break
             au=auto.login1()
