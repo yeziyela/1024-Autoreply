@@ -1,6 +1,6 @@
 # 1024(草榴论坛)-Autoreply 多用户版本
 
-购买草榴邀请码 [联系](https://t.me/honus88)
+购买草榴邀请码 [联系](https://t.me/honus_chat_bot)
 
 ps: 多个账号只需要用空格隔开即可
 
