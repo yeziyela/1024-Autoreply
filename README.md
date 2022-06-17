@@ -43,9 +43,9 @@ config={
 ```
 USER             用户名
 
-    PASSWORD         密码
+PASSWORD         密码
 
-    SECRET           谷歌身份验证器密钥
+SECRET           谷歌身份验证器密钥
 ```
 
 (可选1)([申请地址](https://apitruecaptcha.org/))
@@ -60,7 +60,7 @@ USERID            api页面中的userid字段
 ```
 CODEUSER         注册用户名
 
-    CODEPASS         注册密码
+CODEPASS         注册密码
 ```
 
 ps:可选两个是识别验证码用的，任选其一即可，也可以都不选。如果不选碰见需要验证码的则会运行失败。
@@ -91,9 +91,9 @@ ps:可选两个是识别验证码用的，任选其一即可，也可以都不�
 ```
 user=''                 用户名
 
-    password=''             密码
+password=''             密码
 
-    secret=''               谷歌身份验证器密钥
+secret=''               谷歌身份验证器密钥
 ```
 
 验证码部分根据自己选择修改参数类似上面
