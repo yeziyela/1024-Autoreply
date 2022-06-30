@@ -180,6 +180,11 @@ class Autoreply:
         'User-Agent': Autoreply.UserAgent
         }
         res=requests.get(url=geturl,headers=headers,cookies=cookies)
+        reply_id = re.findall("<a name=#(\d+)><\/a>", res.text)
+        if len(reply_id)==0:
+            return None
+        else:
+            return reply_id[random.randint(0,len(reply_id)-1)]
 
     @staticmethod
     def getmatch(geturl,cookies):
@@ -262,6 +267,33 @@ class Autoreply:
         num=re.search(pat,index).group(0)
         num=num.replace('共發表帖子: ','')
         return num
+    
+    @staticmethod
+    def like(id,url,cookies):
+        likeurl='http://t66y.com/api.php'
+        headers={
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Host': 't66y.com',
+        'Connection': 'keep-alive',
+        'Origin': 'http://t66y.com',
+        'User-Agent': Autoreply.UserAgent,
+        'X-Requested-With': 'XMLHttpRequest',
+        }
+        data={
+            'action': 'clickLike',
+            'id': id,
+            'page': 'h',
+            'json': '1',
+            'url': url
+        }    
+        like=requests.post(likeurl,headers=headers,data=data,cookies=cookies)
+        try:
+            if int(json.loads(like.text)['myMoney']) > 0 :
+                print("点赞成功")
+                return True
+        except:
+            return False
+
 
     @staticmethod
     def main(cookieslist,todaylist,ge):
@@ -270,6 +302,7 @@ class Autoreply:
         cookies=cookieslist[ge]
         m=Autoreply.getnumber(cookies)
         suc=False
+        like = random.randint(0, 9)
         print('第'+str(ge+1)+'个账号开始时发表帖子:'+m)
         while n<10 and suc is False:
             try:
@@ -284,7 +317,9 @@ class Autoreply:
                     print('第'+str(ge+1)+'个账号回复成功')
                     n=n+1
                     print('第'+str(ge+1)+'个账号休眠'+str(sleeptime)+'s...')
-                    Autoreply.browse(geturl,cookies)
+                    id = Autoreply.browse(geturl,cookies)
+                    if config.get('like',True) and id != False and (n == like):
+                        like = Autoreply.like(id,geturl,cookies)
                     sleep(sleeptime)
                     print('第'+str(ge+1)+'个账号休眠完成')
                 elif au=='今日已达上限':
@@ -301,6 +336,8 @@ class Autoreply:
         n=Autoreply.getnumber(cookies)
         print('第'+str(ge+1)+'个账号开始时发表帖子:'+m)
         print('第'+str(ge+1)+'个账号结束时发表帖子:'+n)
+        if config.get('like',True):
+            print(f"第{str(ge+1)}个账号点赞状态为{like}")
         print('第'+str(ge+1)+'个账号回复'+str(int(n)-int(m))+'次')
 
 if __name__ == "__main__":
