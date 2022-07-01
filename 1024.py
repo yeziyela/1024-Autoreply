@@ -8,6 +8,7 @@ from getver import GetVerificationCode
 from multiprocessing import Pool
 from config import config
 import pickle
+import json
 
 class Autoreply:
     result=None
