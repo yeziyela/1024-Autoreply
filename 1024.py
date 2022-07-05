@@ -291,7 +291,7 @@ class Autoreply:
         try:
             if int(json.loads(like.text)['myMoney']) > 0 :
                 print("点赞成功")
-                return True
+            return True
         except:
             return False
 
@@ -320,7 +320,7 @@ class Autoreply:
                     print('第'+str(ge+1)+'个账号休眠'+str(sleeptime)+'s...')
                     id = Autoreply.browse(geturl,cookies)
                     if config.get('like',True) and id != False and (n == like):
-                        like = Autoreply.like(id,geturl,cookies)
+                        like_flag = Autoreply.like(id,geturl,cookies)
                     sleep(sleeptime)
                     print('第'+str(ge+1)+'个账号休眠完成')
                 elif au=='今日已达上限':
@@ -338,7 +338,7 @@ class Autoreply:
         print('第'+str(ge+1)+'个账号开始时发表帖子:'+m)
         print('第'+str(ge+1)+'个账号结束时发表帖子:'+n)
         if config.get('like',True):
-            print(f"第{str(ge+1)}个账号点赞状态为{like}")
+            print(f"第{str(ge+1)}个账号点赞状态为{like_flag}")
         print('第'+str(ge+1)+'个账号回复'+str(int(n)-int(m))+'次')
 
 if __name__ == "__main__":
