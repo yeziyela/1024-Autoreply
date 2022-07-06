@@ -290,8 +290,9 @@ class Autoreply:
         like=requests.post(likeurl,headers=headers,data=data,cookies=cookies)
         try:
             if int(json.loads(like.text)['myMoney']) > 0 :
-                print("点赞成功")
-            return True
+                #print("点赞成功")
+                return True
+            return False
         except:
             return False
 
@@ -302,8 +303,8 @@ class Autoreply:
         n=0
         cookies=cookieslist[ge]
         m=Autoreply.getnumber(cookies)
+        like_flag = False
         suc=False
-        like = random.randint(0, 9)
         print('第'+str(ge+1)+'个账号开始时发表帖子:'+m)
         while n<10 and suc is False:
             try:
@@ -319,8 +320,10 @@ class Autoreply:
                     n=n+1
                     print('第'+str(ge+1)+'个账号休眠'+str(sleeptime)+'s...')
                     id = Autoreply.browse(geturl,cookies)
-                    if config.get('like',True) and id != False and (n == like):
-                        like_flag = Autoreply.like(id,geturl,cookies)
+                    if config.get('like',True) and id != False:
+                        temp = Autoreply.like(id,geturl,cookies)
+                        if like_flag != True:
+                            like_flag = temp
                     sleep(sleeptime)
                     print('第'+str(ge+1)+'个账号休眠完成')
                 elif au=='今日已达上限':
