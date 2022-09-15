@@ -15,19 +15,19 @@ class Autoreply:
     over=False
     flag=False
     UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
-    loginurl = 'http://t66y.com/login.php'
-    url='http://t66y.com/thread0806.php?fid=7&search=today'
+    loginurl = 'https://t66y.com/login.php'
+    url='https://t66y.com/thread0806.php?fid=7&search=today'
     headers={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
-        'Referer': 'http://t66y.com/index.php',
+        'Referer': 'https://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': UserAgent
     }
     headers1={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
-        'Referer': 'http://t66y.com/login.php',
+        'Referer': 'https://t66y.com/login.php',
         'User-Agent': UserAgent
     }
 
@@ -45,8 +45,8 @@ class Autoreply:
                 'pwpwd':  self.password,
                 'hideid': '0',
                 'cktime': '0',
-                'forward': 'http://t66y.com/post.php?',
-                'jumpurl': 'http://t66y.com/post.php?',
+                'forward': 'https://t66y.com/post.php?',
+                'jumpurl': 'https://t66y.com/post.php?',
                 'step': '2'
         }
         login=self.s.post(self.loginurl,headers=self.headers,data=data)
@@ -85,7 +85,7 @@ class Autoreply:
    
     def verifyLoginSuc(self):
         with self.s as s:
-            index = s.get('http://t66y.com/index.php', headers = {
+            index = s.get('https://t66y.com/index.php', headers = {
                 'Host': 't66y.com',
                 'Upgrade-Insecure-Requests': '1',
                 'User-Agent': self.UserAgent
@@ -103,7 +103,7 @@ class Autoreply:
     def getverwebp(self):
         code=random.uniform(0,1)
         code=round(code,16)
-        vercodeurl='http://t66y.com/require/codeimg.php?'+str(code)
+        vercodeurl='https://t66y.com/require/codeimg.php?'+str(code)
         image=self.s.get(vercodeurl,headers=self.headers1)
         f=open('image.webp','wb')
         f.write(image.content)
@@ -165,7 +165,7 @@ class Autoreply:
     def getonelink(todaylist):
         geturl=''
         m=random.randint(0,len(todaylist)-1)
-        geturl='http://t66y.com/'+todaylist[m]
+        geturl='https://t66y.com/'+todaylist[m]
         tid=todaylist[m][16:len(todaylist[m])-5]
         todaylist.remove(todaylist[m])
         #print('请求链接是: '+geturl)
@@ -176,7 +176,7 @@ class Autoreply:
         headers={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
-        'Referer': 'http://t66y.com/index.php',
+        'Referer': 'https://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': Autoreply.UserAgent
         }
@@ -192,7 +192,7 @@ class Autoreply:
         headers={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
-        'Referer': 'http://t66y.com/index.php',
+        'Referer': 'https://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': Autoreply.UserAgent
         }
@@ -225,7 +225,7 @@ class Autoreply:
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': Autoreply.UserAgent
         }
-        posturl='http://t66y.com/post.php?'
+        posturl='https://t66y.com/post.php?'
         data={
             'atc_usesign':'1',
             'atc_convert':'1',
@@ -253,11 +253,11 @@ class Autoreply:
 
     @staticmethod
     def getnumber(cookies):
-        indexurl='http://t66y.com/index.php'
+        indexurl='https://t66y.com/index.php'
         headers={
         'Host': 't66y.com',
         'Proxy-Connection': 'keep-alive',
-        'Referer': 'http://t66y.com/index.php',
+        'Referer': 'https://t66y.com/index.php',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': Autoreply.UserAgent
         }
@@ -271,14 +271,14 @@ class Autoreply:
     
     @staticmethod
     def like(id,url,cookies):
-        likeurl='http://t66y.com/api.php'
+        likeurl='https://t66y.com/api.php'
         headers={
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Host': 't66y.com',
         'Connection': 'keep-alive',
-        'Origin': 'http://t66y.com',
+        'Origin': 'https://t66y.com',
         'User-Agent': Autoreply.UserAgent,
-        'X-Requested-With': 'XMLHttpRequest',
+        'X-Requested-With': 'XMLhttpRequest',
         }
         data={
             'action': 'clickLike',
