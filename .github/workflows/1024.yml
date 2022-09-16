@@ -34,5 +34,7 @@ jobs:
         TOKER: ${{ secrets.TOKER }}
         CODEUSER: ${{ secrets.CODEUSER }}
         CODEPASS: ${{ secrets.CODEPASS }}
+        USERID: ${{ secrets.USERID }}
+        APIKEY: ${{ secrets.APIKEY }}
       run:
         python3 1024.py
